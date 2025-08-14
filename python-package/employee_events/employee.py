@@ -64,7 +64,7 @@ class Employee(QueryBase):
     # the sql query
     def model_data(self, id):
 
-        return super().pandas_query(f"""
+        return self.pandas_query(f"""
                     SELECT SUM(positive_events) positive_events
                          , SUM(negative_events) negative_events
                     FROM {self.name}
