@@ -1,10 +1,13 @@
 import pytest
 from pathlib import Path
 
+from report.utils import project_root
+
 # Using pathlib create a project_root
 # variable set to the absolute path
 # for the root of this project
-#### YOUR CODE HERE
+parent = Path(__file__).parent
+project_root = parent.parent
 
 # apply the pytest fixture decorator
 # to a `db_path` function
