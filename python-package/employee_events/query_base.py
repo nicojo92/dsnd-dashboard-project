@@ -1,27 +1,27 @@
 # Import any dependencies needed to execute sql queries
-# YOUR CODE HERE
+from .sql_execution import QueryMixin
 
 # Define a class called QueryBase
 # Use inheritance to add methods
 # for querying the employee_events database.
-# YOUR CODE HERE
+class QueryBase(QueryMixin):
 
     # Create a class attribute called `name`
     # set the attribute to an empty string
-    # YOUR CODE HERE
+    name=''
 
     # Define a `names` method that receives
     # no passed arguments
-    # YOUR CODE HERE
+    def names(self):
         
         # Return an empty list
-        # YOUR CODE HERE
+        return list()
 
 
     # Define an `event_counts` method
     # that receives an `id` argument
     # This method should return a pandas dataframe
-    # YOUR CODE HERE
+    def event_counts(self, id_arg):
 
         # QUERY 1
         # Write an SQL query that groups by `event_date`
@@ -31,13 +31,24 @@
         # Use f-string formatting to set the name
         # of id columns used for joining
         # order by the event_date column
-        # YOUR CODE HERE
+        query_1 = f'''
+            SELECT  e.event_date,
+                    SUM(e.positive_events),
+                    SUM(e.negative_events)
+            FROM {self.name} AS t
+            JOIN employee_events AS e
+                ON e.{id_arg} = t.{id_arg}
+            GROUP BY e.event_date
+            ORDER BY e.event_date
+        '''
+
+        return super().pandas_query(query_1)
             
     
 
     # Define a `notes` method that receives an id argument
     # This function should return a pandas dataframe
-    # YOUR CODE HERE
+    def notes(self, id_arg):
 
         # QUERY 2
         # Write an SQL query that returns `note_date`, and `note`
@@ -46,5 +57,13 @@
         # with f-string formatting
         # so the query returns the notes
         # for the table name in the `name` class attribute
-        # YOUR CODE HERE
+        query_2 = f'''
+            SELECT  t.*,
+                    n.note_date,
+                    n.note
+            FROM notes AS n
+            JOIN {self.name} AS t
+                ON t.{id_arg} = n.{id_arg}
+        '''
 
+        return super().pandas_query(query_2)
