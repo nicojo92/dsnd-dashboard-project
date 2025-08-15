@@ -29,7 +29,7 @@ class Employee(QueryBase):
         # for all employees in the database
         query_3=f'''
             SELECT first_name || ' ' || last_name AS full_name, employee_id
-            FROM employee
+            FROM {self.name}
         '''
 
         return self.query(query_3)
@@ -48,7 +48,7 @@ class Employee(QueryBase):
         # with an id equal to the id argument
         query_4=f'''
             SELECT first_name || ' ' || last_name AS full_name, employee_id
-            FROM employee
+            FROM {self.name}
             WHERE employee_id = {id_arg}
         '''
 

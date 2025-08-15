@@ -1,5 +1,5 @@
 # Import any dependencies needed to execute sql queries
-from .sql_execution import QueryMixin
+from sql_execution import QueryMixin
 
 # Define a class called QueryBase
 # Use inheritance to add methods
@@ -31,18 +31,31 @@ class QueryBase(QueryMixin):
         # Use f-string formatting to set the name
         # of id columns used for joining
         # order by the event_date column
+
         query_1 = f'''
-            SELECT  e.event_date,
+            SELECT  e.event_date as event_date,
                     SUM(e.positive_events),
                     SUM(e.negative_events)
             FROM {self.name} AS t
-            JOIN employee_events AS e
-                ON e.{id_arg} = t.{id_arg}
             GROUP BY e.event_date
             ORDER BY e.event_date
         '''
 
-        return super().pandas_query(query_1)
+        query_99 = f'''
+            SELECT  e.event_date as event_date,
+                    SUM(e.positive_events),
+                    SUM(e.negative_events)
+            FROM {self.name} AS t
+            JOIN employee_events AS e
+                ON e.{self.name}_id = t.{self.name}_id
+            WHERE e.{self.name}_id = {id_arg}
+            GROUP BY e.event_date
+            ORDER BY e.event_date
+        '''
+
+
+        #return super().pandas_query(query_1)
+        return "Hello"
             
     
 
@@ -58,12 +71,10 @@ class QueryBase(QueryMixin):
         # so the query returns the notes
         # for the table name in the `name` class attribute
         query_2 = f'''
-            SELECT  t.*,
-                    n.note_date,
+            SELECT  n.note_date,
                     n.note
             FROM notes AS n
-            JOIN {self.name} AS t
-                ON t.{id_arg} = n.{id_arg}
+            WHERE n.{self.name}_id = {id_arg}
         '''
 
         return super().pandas_query(query_2)
