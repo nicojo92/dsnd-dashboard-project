@@ -1,58 +1,23 @@
-# Import the QueryBase class
 from .query_base import QueryBase
 
-# Import dependencies for sql execution
-#### YOUR CODE HERE
-
-# Create a subclass of QueryBase
-# called  `Team`
 class Team(QueryBase):
 
-# Set the class attribute `name`
-# to the string "team"
     name = 'team'
 
-
-# Define a `names` method
-# that receives no arguments
-# This method should return
-# a list of tuples from a sql execution
     def names(self):
 
-        # Query 5
-        # Write an SQL query that selects
-        # the team_name and team_id columns
-        # from the team table for all teams
-        # in the database
         query_5 = f'SELECT team_name, team_id FROM {self.name}'
 
         return self.query(query_5)
 
 
-    # Define a `username` method
-    # that receives an ID argument
-    # This method should return
-    # a list of tuples from a sql execution
     def username(self, id_arg):
 
-        # Query 6
-        # Write an SQL query
-        # that selects the team_name column
-        # Use f-string formatting and a WHERE filter
-        # to only return the team name related to
-        # the ID argument
         query_6 = f'SELECT team_name, team_id FROM {self.name} WHERE team_id = {id_arg}'
 
         return self.query(query_6)
 
 
-    # Below is method with an SQL query
-    # This SQL query generates the data needed for
-    # the machine learning model.
-    # Without editing the query, alter this method
-    # so when it is called, a pandas dataframe
-    # is returns containing the execution of
-    # the sql query
     def model_data(self, id):
 
         return self.pandas_query(f"""
