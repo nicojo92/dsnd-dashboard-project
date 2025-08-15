@@ -84,14 +84,14 @@ class LineChart(MatplotlibViz):
 
         # User the pandas .set_index method to set
         # the date column as the index
-        df.set_index(df.event_date, inplace=True)
+        df.set_index('event_date', inplace=True)
 
         # Sort the index
         df.sort_index(inplace=True)
 
         # Use the .cumsum method to change the data
         # in the dataframe to cumulative counts
-        df = df.cumusum()
+        df = df.cumsum()
 
 
         # Set the dataframe columns to the list
@@ -162,7 +162,7 @@ class BarChart(MatplotlibViz):
         # Otherwise set `pred` to the first value
         # of the predict_proba output
         else:
-            pred = pred_probs[0, 1]
+            pred = pred_probs[0]
 
         # Initialize a matplotlib subplot
         fix, ax = plt.subplots()
@@ -249,8 +249,7 @@ def get():
     # pass the integer 1 and an instance
     # of the Employee class as arguments
     # Return the result
-    # return report(1, Employee())
-    return H1(QueryBase().event_counts(1))
+    return report(1, Employee())
 
 # Create a route for a get request
 # Set the route's path to receive a request
@@ -259,13 +258,14 @@ def get():
 # an ID of `2`.
 # parameterize the employee ID
 # to a string datatype
-#### YOUR CODE HERE
+@route('/employee/{entity_id}')
+def get(entity_id:str=None):
 
     # Call the initialized report
     # pass the ID and an instance
     # of the Employee SQL class as arguments
     # Return the result
-    #### YOUR CODE HERE
+    return report(entity_id, Employee())
 
 # Create a route for a get request
 # Set the route's path to receive a request
@@ -274,13 +274,14 @@ def get():
 # an ID of `2`.
 # parameterize the team ID
 # to a string datatype
-#### YOUR CODE HERE
+@route('/team/{entity_id}')
+def get(entity_id:str=None):
 
     # Call the initialized report
     # pass the id and an instance
     # of the Team SQL class as arguments
     # Return the result
-    #### YOUR CODE HERE
+    return report(entity_id, Team())
 
 
 # Keep the below code unchanged!

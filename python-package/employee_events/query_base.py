@@ -1,5 +1,5 @@
 # Import any dependencies needed to execute sql queries
-from sql_execution import QueryMixin
+from .sql_execution import QueryMixin
 
 # Define a class called QueryBase
 # Use inheritance to add methods
@@ -37,15 +37,6 @@ class QueryBase(QueryMixin):
                     SUM(e.positive_events),
                     SUM(e.negative_events)
             FROM {self.name} AS t
-            GROUP BY e.event_date
-            ORDER BY e.event_date
-        '''
-
-        query_99 = f'''
-            SELECT  e.event_date as event_date,
-                    SUM(e.positive_events),
-                    SUM(e.negative_events)
-            FROM {self.name} AS t
             JOIN employee_events AS e
                 ON e.{self.name}_id = t.{self.name}_id
             WHERE e.{self.name}_id = {id_arg}
@@ -54,8 +45,7 @@ class QueryBase(QueryMixin):
         '''
 
 
-        #return super().pandas_query(query_1)
-        return "Hello"
+        return super().pandas_query(query_1)
             
     
 

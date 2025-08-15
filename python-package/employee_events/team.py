@@ -46,24 +46,24 @@ class Team(QueryBase):
         return self.query(query_6)
 
 
-# Below is method with an SQL query
-# This SQL query generates the data needed for
-# the machine learning model.
-# Without editing the query, alter this method
-# so when it is called, a pandas dataframe
-# is returns containing the execution of
-# the sql query
-def model_data(self, id):
+    # Below is method with an SQL query
+    # This SQL query generates the data needed for
+    # the machine learning model.
+    # Without editing the query, alter this method
+    # so when it is called, a pandas dataframe
+    # is returns containing the execution of
+    # the sql query
+    def model_data(self, id):
 
-    return self.pandas_query(f"""
-        SELECT positive_events, negative_events FROM (
-                SELECT employee_id
-                     , SUM(positive_events) positive_events
-                     , SUM(negative_events) negative_events
-                FROM {self.name}
-                JOIN employee_events
-                    USING({self.name}_id)
-                WHERE {self.name}.{self.name}_id = {id}
-                GROUP BY employee_id
-               )
-            """)
+        return self.pandas_query(f"""
+            SELECT positive_events, negative_events FROM (
+                    SELECT employee_id
+                         , SUM(positive_events) positive_events
+                         , SUM(negative_events) negative_events
+                    FROM {self.name}
+                    JOIN employee_events
+                        USING({self.name}_id)
+                    WHERE {self.name}.{self.name}_id = {id}
+                    GROUP BY employee_id
+                   )
+                """)
